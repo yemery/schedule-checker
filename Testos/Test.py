@@ -9,16 +9,16 @@
 # # print(req.url)
 # soup=BeautifulSoup(req.content,'html.parser')
 # arrNames=[]
-# tr = table.find_all("tr")[2:]
-# for row in tr:
-#     r=[]
-#     for td in row.find_all('td')[1:]:
-#         val = td.find('a')
-#         if val:
-#             r.append(val.text)
-#         else:
-#             r.append('')
-#     arrNames.append(r)
+tr = table.find_all("tr")[2:]
+for row in tr:
+    r=[]
+    for td in row.find_all('td')[1:]:
+        val = td.find('a')
+        if val:
+            r.append(val.text)
+        else:
+            r.append('')
+    arrNames.append(r)
 # # print(arrNames)
 
 # arrColors=[]

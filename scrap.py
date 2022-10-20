@@ -7,7 +7,7 @@ import numpy as np
 import schedule
 from discord_webhook import DiscordWebhook
 
-
+gr=[]
 def getGr():
     URL = "https://www.nticrabat.com/"
     r = requests.get(URL)
@@ -16,6 +16,7 @@ def getGr():
 
     grList=[]
     for i in select.find_all('option')[1:]:
+        gr.append(i.text)
         att=i.attrs
         grList.append(att['value'])
         # payload['groupe']="{}".format(att['value'])
@@ -24,18 +25,42 @@ def getGr():
 # print(getGr())
 grList=getGr()
 j=0
-for i in grList:
-    payload={
-        'groupe':f'{i}',
-    }
-    print(payload)
-    URL = "https://www.nticrabat.com/emploi/emp.php"
-    r = requests.get(URL,params=payload)
-    print(r.url)
-    def getData():
+
+    # print(i)
+def checkChanges(arr):
+        bool=True
+        wf=open(f"dbTxt/{gr[j]}.txt","r+")
+        lines=wf.readlines()
+        oldOne=[]
+        for i in range(0,len(lines)):
+        # print(lines[i].rstrip().split(','),'*')
+            oldOne.append(lines[i].rstrip().split(','))
+    # print(oldOne)
+
+        npoldOne=np.array(oldOne)
+        npnewOne=np.array(arr)
+        # print(len(npnewOne))
+        # print('***')
+        # print(len(npnewOne))
+        # print('**')
+
+        if(np.array_equal(npoldOne,npnewOne)==False or len(npnewOne)!=len(npoldOne)):
+            bool=False
+        # print(bool)
+        wf.close()
+
+        if(bool==False):
+            rf=open(f"dbTxt/{gr[j]}.txt",'w+')
+            for i in npnewOne:
+            # print(i)
+                joinArr=",".join(i)
+                rf.writelines(f'{joinArr}\n')
+            rf.close()
+        
+        return bool
+def getData(r):
         soup = BeautifulSoup(r.content, 'html5lib') 
         table = BeautifulSoup(str(soup.find_all('table')[-1]), 'html5lib')
-
         arrNames=[]
         tr = table.find_all("tr")[2:]
         for row in tr:
@@ -45,11 +70,10 @@ for i in grList:
                 if val:
                     tdA=[]
                     for i in val:
-                    
                         tdA.append(i.text)
-                        tdSplit=' '.join(tdA)
+                    tdSplit=' '.join(tdA)
                 # tdA.append(tdSplit)
-                        arrNames.append(tdSplit)
+                    arrNames.append(tdSplit)
 
                 else:
                     arrNames.append('')
@@ -73,51 +97,26 @@ for i in grList:
         return finalArr
 
 
+for i in grList:
+    payload={
+        'groupe':f'{i}',
+    }
+    URL = "https://www.nticrabat.com/emploi/emp.php"
+    r = requests.get(URL,params=payload)
+
+    arr=getData(r)
+    print(checkChanges(arr))
 
 
-    def checkChanges(arr):
-        bool=True
-        wf=open(f"data{j}.txt","w+")
-        lines=wf.readlines()
-        oldOne=[]
-        for i in range(0,len(lines)):
-        # print(lines[i].rstrip().split(','),'*')
-            oldOne.append(lines[i].rstrip().split(','))
-    # print(oldOne)
-
-        npoldOne=np.array(oldOne)
-        npnewOne=np.array(arr)
-
-        if(np.array_equal(npoldOne,npnewOne)==False or len(npnewOne)!=len(npoldOne)):
-            bool=False
-        print(bool)
-        wf.close()
-
-        if(bool==False):
-            rf=open(f"data{j}.txt",'w+')
-            for i in npnewOne:
-            # print(i)
-                joinArr=",".join(i)
-                rf.writelines(f'{joinArr}\n')
-            rf.close()
-        
-        return bool
-    # arr=getData()
-    # print(checkChanges(arr))
-
-
-
-    # arr=getData()
-    # print(checkChanges(arr))
-
-    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content='schedule has been changed')
-    def main():
-        arr=getData()
     
-        if(checkChanges(arr)==False):
-            response = webhook.execute()
-        schedule.every(5).seconds.do(main)
-        while True:
-            schedule.run_pending()
     j+=1 
-    print(i)
+    # webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content=f'schedule {gr[j]} has been changed')
+    # def main():
+    #     arr=getData()
+    
+    #     if(checkChanges(arr)==False):
+    #         response = webhook.execute()
+    #     schedule.every(5).seconds.do(main)
+    #     while True:
+    #         schedule.run_pending()
+    
