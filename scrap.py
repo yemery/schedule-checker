@@ -19,39 +19,29 @@ def getGr():
         gr.append(i.text)
         att=i.attrs
         grList.append(att['value'])
-        # payload['groupe']="{}".format(att['value'])
-        # print(payload)
     return grList
-# print(getGr())
-# print(gr)
 
-    # print(i)
+
+
 def checkChanges(arr,grNum):
         bool=True
         wf=open(f"dbTxt/{gr[grNum]}.txt","r+")
         lines=wf.readlines()
         oldOne=[]
         for i in range(0,len(lines)):
-        # print(lines[i].rstrip().split(','),'*')
             oldOne.append(lines[i].rstrip().split(','))
-    # print(oldOne)
 
         npoldOne=np.array(oldOne)
         npnewOne=np.array(arr)
-        # print(len(npnewOne))
-        # print('***')
-        # print(len(npnewOne))
-        # print('**')
+     
 
         if(np.array_equal(npoldOne,npnewOne)==False or len(npnewOne)!=len(npoldOne)):
             bool=False
-        # print(bool)
         wf.close()
 
         if(bool==False):
             rf=open(f"dbTxt/{gr[grNum]}.txt",'w+')
             for i in npnewOne:
-            # print(i)
                 joinArr=",".join(i)
                 rf.writelines(f'{joinArr}\n')
             rf.close()
@@ -71,12 +61,10 @@ def getData(r):
                     for i in val:
                         tdA.append(i.text)
                     tdSplit=' '.join(tdA)
-                # tdA.append(tdSplit)
                     arrNames.append(tdSplit)
 
                 else:
                     arrNames.append('')
-    # print(arrNames)
 
         arrColors=[]
         trC= table.find_all("tr")[2:]
@@ -85,19 +73,15 @@ def getData(r):
                 valC = td['bgcolor']
                 if valC:
                     arrColors.append(valC)
-    # print(arrColors)   
         finalArr=[]
         for i in range(0,len(arrNames)):
             for j in range(0,len(arrColors)):
                 if(i==j):
                     finalArr.append([arrNames[i],arrColors[j]])
-    # print('********************************')
-    # print(finaleArr)
+   
         return finalArr
-# webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content=f'schedule  has been changed')
 def main():
     grNum=0
-    # webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content=f'schedule {gr[grNum]}  has been changed')
     grList=getGr()
 
     for i in grList:
@@ -118,11 +102,8 @@ schedule.every(5).seconds.do(main)
 while 2:
     n = schedule.idle_seconds()
     if n is None:
-        # no more jobs
         break
     elif n > 0:
-        # sleep exactly the right amount of time
-        print('****')
         time.sleep(n)
     schedule.run_pending()
     
