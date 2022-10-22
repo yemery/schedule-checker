@@ -108,7 +108,6 @@ for i in grList:
     print(checkChanges(arr))
 
 
-    
     j+=1 
     # webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content=f'schedule {gr[j]} has been changed')
     # def main():
