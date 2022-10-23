@@ -6,6 +6,10 @@ import numpy as np
 import time
 import schedule
 from discord_webhook import DiscordWebhook
+import datetime
+
+
+
 
 gr=[]
 def getGr():
@@ -81,6 +85,7 @@ def getData(r):
    
         return finalArr
 def main():
+    now = datetime.datetime.now()
     grNum=0
     grList=getGr()
 
@@ -93,7 +98,7 @@ def main():
 
         arr=getData(r)
         if(checkChanges(arr,grNum)==False):
-            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content=f'schedule {gr[grNum]}  has been changed')
+            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content=f'schedule of {gr[grNum]}  has been changed . {now} ')
             response = webhook.execute()
         grNum+=1 
    
