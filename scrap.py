@@ -24,6 +24,7 @@ def getGr():
         att=i.attrs
         grList.append(att['value'])
     return grList
+print(gr)
 
 
 
@@ -98,7 +99,7 @@ def main():
 
         arr=getData(r)
         if(checkChanges(arr,grNum)==False):
-            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content=f'schedule of {gr[grNum]}  has been changed . {now} ')
+            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content=f'schedule of {gr[grNum]}  has been changed . {now} -> {r.url}' )
             response = webhook.execute()
         grNum+=1 
    
