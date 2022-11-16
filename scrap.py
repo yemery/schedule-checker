@@ -1,4 +1,3 @@
-from distutils.command import check
 from lxml import html
 from bs4 import BeautifulSoup
 import requests
@@ -23,8 +22,8 @@ def getGr():
         gr.append(i.text)
         att=i.attrs
         grList.append(att['value'])
+    print(grList)
     return grList
-print(gr)
 
 
 
@@ -89,6 +88,7 @@ def main():
     now = datetime.datetime.now()
     grNum=0
     grList=getGr()
+    print(gr)
 
     for i in grList:
         payload={
@@ -99,7 +99,7 @@ def main():
 
         arr=getData(r)
         if(checkChanges(arr,grNum)==False):
-            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content=f'schedule of {gr[grNum]}  has been changed . {now} -> {r.url}' )
+            webhook = DiscordWebhook(url='https://discord.com/api/webhooks/1028634412218331186/_gvhAXlOjgHCg7eTDzQI1fBNurWIOrn7bgnJiLxZCFqPn4Oy8UXnXuYpM_7i_K-A4r_m', content=f'schedule of <@&{1039095859452837928}>  has been changed . {now}  https://www.nticrabat.com/index.php?groupe={int(grList[grNum])}#emploi' )
             response = webhook.execute()
         grNum+=1 
    

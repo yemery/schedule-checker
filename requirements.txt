@@ -1,0 +1,15 @@
+discord-webhook
+
+lxml
+
+bs4
+
+requests
+
+numpy
+
+schedule
+
+time
+
+datetime
