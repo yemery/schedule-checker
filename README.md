@@ -1,2 +1,21 @@
-A program that checks our group's schedule and if it find any changes , it sends out a message to a discord server to remind the students that the schedule has been changes .
-Tools: Python , Beautiful Soup / Requests / DiscordWebhook  'n other libraries 
+
+
+The aim of this project is to notify the students when the schedule of their class is changed.
+
+The project is built using python and the following library:
+
+- discord-webhook
+
+- lxml
+
+- bs4
+
+- requests
+
+- numpy
+
+- schedule
+
+- time
+
+- datetime
